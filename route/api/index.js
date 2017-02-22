@@ -1,7 +1,6 @@
-const express=require('express'),
-router=express.Router();
+module.exports=function(router){
 
-router.use('/todo',require('./todoRoute.js'));
-router.use('/user',require('./userRoute.js'));
-
-module.exports=router;
+router.use('/todo',require('./todoRoute.js')(router));
+router.use('/user',require('./userRoute.js')(router));
+return router;
+};

@@ -3,7 +3,8 @@ const app=express();
 const morgan = require("morgan");
 const path=require('path');
 const mongoose=require('mongoose');
-const mongoUri = 'mongodb://localhost/'; 
+const router=express.Router();
+const mongoUri = 'mongodb://localhost/todo';
 mongoose.connect(mongoUri);
 const db = mongoose.connection;
 
@@ -22,7 +23,7 @@ app.use(express.static(__dirname+'/public'));
 app.use(express.static(__dirname+'/public'));
 
 
-app.use(require('./route'));
+app.use(require('./route')(router));
 app.use(morgan('dev'));
 
 // catch 404 and forward to error handler

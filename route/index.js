@@ -1,7 +1,5 @@
-const express=require('express'),
-router=express.Router();
-
-router.use('/api',require('./api'));
-router.use('/site',require('./site'));
-
-module.exports=router;
+module.exports=function(router){
+	router.use('/api',require('./api')(router));
+	router.use('/site',require('./site')(router));
+	return router;
+}

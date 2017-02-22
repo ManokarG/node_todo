@@ -1,5 +1,5 @@
-const express=require('express'),
-router=express.Router();
+module.exports=function(router){
+
 const Todo=require('./../../models/todo.js');
 
 router.get('/',function(req,res){
@@ -32,4 +32,6 @@ router.post('/update',function(req,res){
 	})
 })
 
-module.exports=router;
+
+return router;
+};
