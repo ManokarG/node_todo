@@ -1,6 +1,6 @@
-module.exports=function(router){
-	router.get('/todo',function(req,res){
+const express=require('express');
+const router=express.Router();
+router.get('/todo',function(req,res){
 	res.sendFile(__dirname+'/public/html/todo.html');
 });
-	return router;
-};
+module.exports=router;

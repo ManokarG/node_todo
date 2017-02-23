@@ -1,6 +1,13 @@
-module.exports=function(router){
-
+const express=require('express');
+const router=express.Router();
 const Todo=require('./../../models/todo.js');
+
+// route middleware that will happen on every request
+router.use(function(req, res, next) {
+	console.log("Todo Route Detected");
+    // continue doing what we were doing and go to the route
+    next(); 
+});
 
 router.get('/',function(req,res){
 	Todo.find(function(error,todos){
@@ -32,6 +39,4 @@ router.post('/update',function(req,res){
 	})
 })
 
-
-return router;
-};
+module.exports=router;

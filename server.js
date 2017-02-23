@@ -16,14 +16,14 @@ db.on('error', function () {
 const PORT=process.env.PORT||8080;
 
 const bodyParser=require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
+app.use('/js',express.static(__dirname+'/public/js'));
+app.use('/css',express.static(__dirname+'/public/css'));
 app.use(express.static(__dirname+'/public/html'));
-app.use(express.static(__dirname+'/public'));
-app.use(express.static(__dirname+'/public'));
 
 
-app.use(require('./route')(router));
+app.use('/',require('./route'));
 app.use(morgan('dev'));
 
 // catch 404 and forward to error handler
