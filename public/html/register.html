@@ -1,11 +1,41 @@
-<!DOCTYPE html>
 <html>
-<head>
-	<title>Register</title>
-	<script src="js/register.js"></script>
-</head>
-<body>
-<h1>Register user</h1>
-<button onclick="register()">Register</button>
-</body>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	    <title>Login</title>
+	    <link rel="stylesheet" href="bootstrap.min.css">
+	    <link rel="stylesheet" href="stylesheet.css">
+        <script src="/util.js"></script>
+	    <script src="/register.js"></script>
+    <head>
+    <body>
+            <div class="container">
+                <div class="row">
+                	<div class="col-md-5 col-md-offset-3 well">
+                	<h1>Welcome to Notez</h1>
+                    <h3>Create Account</h3>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                            <input type="text" id="username" class="form-control" autocomplete="off" placeholder="Enter username">
+                            <label class="error hide" id="tvUsernameError">Please enter username</label>
+                        </div>
+                        <div class="form-group">
+                        <label for="email">Email</label>
+                            <input type="email" id="email" class="form-control" autocomplete="off" placeholder="Enter email">
+                            <label class="error hide" id="tvEmailError">Please enter email</label>
+                        </div>
+                        <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Enter password"autocomplete="off">
+                        <label class="error hide" id="tvPasswordError">Please enter password</label>
+                        </div>
+                        <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" placeholder="Enter confirm password" autocomplete="off">
+                        <label class="error hide" id="tvConfirmPassError">Please enter password</label>
+                        </div>
+                        <button class="btn btn-primary btn-block" class="form-control" onclick="register()" id="register">Register</button>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>

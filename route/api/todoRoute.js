@@ -1,40 +1,134 @@
 const express=require('express');
 const router=express.Router();
 const Todo=require('./../../models/todo.js');
+const middleware=require('./../../util/middleware.js')();
 
 // route middleware that will happen on every request
 router.use(function(req, res, next) {
-	console.log("Todo Route Detected");
-    // continue doing what we were doing and go to the route
+    // todo middleware
     next(); 
 });
 
-router.get('/',function(req,res){
-	Todo.find(function(error,todos){
-		return res.json(todos);
-	});
-})
-
-router.post('/',function(req,res){
-	Todo.create(req.body,function(err,todo){
-		if(err){
-			res.send('Cannot create todo');
+router.get('/:id',middleware.requireAuthentication,function(req,res){
+	Todo.find({
+		user:req.user._id,
+		_id:req.params.id
+	},function(err,todo){
+		if(err||!todo){
+			res.sendFailure({
+			message:'No todo found'
+		})
 		}else{
-			res.json(todo);
+		res.sendSuccess({
+			todos:todo
+		})
 		}
 	});
+})
+router.get('/',middleware.requireAuthentication,function(req,res){
+	Todo.find({
+		user:req.user._id
+	}).then(function(todos){
+		res.sendSuccess({
+			todos:todos
+		})
+	},function(err){
+		res.sendFailure({
+			message:'cannot retrieve todos'
+		})
+	})
+})
+
+router.post('/',middleware.requireAuthentication,function(req,res){
+	
+	var todo=new Todo(req.body);
+	todo['user']=req.user._id;
+	todo.save()
+	.then(function(todo){
+		res.sendSuccess({
+			message:'todo created successfully',
+			todo:todo.toPublicJSON()
+		})
+	},function(err){
+		res.sendFailure({
+			message:'Cannot created todo'
+		})
+	})
 });
 
-router.post('/update',function(req,res){
-	Todo.findByIdAndUpdate(req.body.id,req.body,function(err,todo){
-		if(err){
-			res.send('Cannot update todo');
-		}else{
-			Todo.findOne({
-				_id:req.body.id
-			},function(err,todo){
-				res.json(todo);
+router.post('/completed',middleware.requireAuthentication,function(req,res){
+
+Todo.findOneAndUpdate({
+		user:req.user._id,
+		_id:req.body.id
+	},{
+		$set:{
+			completed:true
+		}
+	},{
+		new:true
+	},function(err,todo){
+		if(err||!todo){
+			res.sendFailure({
+				message:'Cannot update todo'
 			})
+		}else{
+				res.sendSuccess({
+					todo:todo
+				})
+		}
+	})
+
+});
+
+router.post('/delete',middleware.requireAuthentication,function(req,res){
+	Todo.findOneAndRemove({
+		user:req.user._id,
+		_id:req.body.id
+	},function(err){
+		if(err){
+			res.sendFailure({
+				message:'Cannot remove todo'
+			})
+		}else{
+				res.sendSuccess({
+					message:'Todo removed successfully'
+				})
+		}
+	})
+})
+
+router.post('/update',middleware.requireAuthentication,function(req,res){
+
+	var updateFields={};
+	if(req.contains('description')){
+		updateFields.description=req.body.description;
+	}
+
+	if(req.contains('title')){
+		updateFields.title=req.body.title;
+	}
+
+	if(req.contains('completed')){
+		updateFields.completed=req.body.completed;
+	}
+
+	Todo.findOneAndUpdate({
+		user:req.user._id,
+		_id:req.body.id
+	},{
+		$set:updateFields
+	},{
+		new:true
+	},function(err,todo){
+		if(err||!todo){
+			res.sendFailure({
+				message:'Cannot update todo'
+			});
+		}else{
+				res.sendSuccess({
+					todo:todo
+				})
 		}
 	})
 })
