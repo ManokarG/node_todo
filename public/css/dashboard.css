@@ -7,7 +7,6 @@
 
 .todo{
     background-color: #fff;
-
     margin-top: 5px;
     border-radius: 10px;
     -moz-border-radius: 10px;
@@ -15,8 +14,13 @@
 }
 
 .item{
-margin:20px 15px;
+    margin:20px 15px;
 }
 .buttons{
     margin:5px 15px;
+}
+
+#btn-create{
+    float:right;
+    margin-top:15px;
 }

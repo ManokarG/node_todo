@@ -154,6 +154,8 @@ router.get('/:id',function(req,res){
 				return;
 			}
 
+
+
 			if(isMailRequired){
 
 				mailer.sendMail({
@@ -244,11 +246,21 @@ router.get('/:id',function(req,res){
 
 				}else{
 
-				res.sendSuccess({
-							user:user.toPublicJSON()
-						});	
+					var token=new Token({
+						token:user.generateToken('authenticate')	
+					});
+					token.save().then(function(token){
+					res.header('token',token.token).sendSuccess({
+						user:user.toPublicJSON()
+					})
+			},function(err){
+				res.sendFailure({
+				message:'something went wrong on token generation'
+			});
 
-				}
+				});
+
+		}
 				
 			},function(err){
 
