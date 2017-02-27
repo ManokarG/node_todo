@@ -61,10 +61,10 @@ userSchema.methods.generateToken=function(type) {
 						id: this._id,
 						type: type
 					});
-					var encryptedData = crypto.AES.encrypt(jsonData, proceess.env.SESSION_SECRET).toString();
+					var encryptedData = crypto.AES.encrypt(jsonData, process.env.SESSION_SECRET).toString();
 					var token = jwt.sign({
 						token: encryptedData
-					}, proceess.env.SESSION_SECRET);
+					}, process.env.SESSION_SECRET);
 					return token;
 				} catch (e) {
 					console.log(e);
@@ -85,7 +85,7 @@ userSchema.pre('validate',function(next){
 })
 
 userSchema.statics.findByToken=function(token,cb){
-	jwt.verify(token,'login123',function(err,decodeJwt){
+	jwt.verify(token,process.env.SESSION_SECRET,function(err,decodeJwt){
 		if(err){
 			console.log('Token verify failure');
 			cb(err);
@@ -96,7 +96,7 @@ userSchema.statics.findByToken=function(token,cb){
 
 		console.log('token verify success');
 
-		var bytes=crypto.AES.decrypt(decodeJwt.token,'user101');
+		var bytes=crypto.AES.decrypt(decodeJwt.token,process.env.SESSION_SECRET);
 		var tokenData=JSON.parse(bytes.toString(crypto.enc.Utf8));
 
 		User.findById(tokenData.id,function(err,user){

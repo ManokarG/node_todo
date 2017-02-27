@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <script src="/js/helper.js"></script>
+    <script src="/js/dashboard.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="well todo-base-container">
+        <h2 class="text-center">Welcome to Notez App</h2>
+
+        <div id="todos">
+            {{#if todos}}
+                <ul>
+                    {{#each todos}}
+                        <li>
+                            <div class="todo">
+                                <div class="item">
+                                    <h2>{{title}}</h2>
+                                    <h4>{{description}}</h4>
+                                </div>
+                                <div class="buttons">
+                                    <button class="btn btn-danger">Delete</button>
+                                    <button class="btn btn-info">Update</button>
+                                    <button class="btn btn-primary">View</button>
+                                </div>
+                            </div>
+                        </li>
+                    {{/each}}
+                </ul>
+            {{else}}
+                <div class="no=todo">
+                    <h2>No todo found</h2>
+                </div>
+            {{/if}}
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

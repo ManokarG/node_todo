@@ -1,7 +1,12 @@
 var User=require('./../models/user.js');
 
 function authenticate(req,res,next){
-	var token=req.get('Auth');
+    var token;
+    if(req.get('Auth')){
+        token=req.get('Auth');
+    }else{
+        token=req.query.auth;
+    }
 
 	if(!token){
 		

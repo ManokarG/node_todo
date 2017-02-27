@@ -1,0 +1,22 @@
+body {
+    background-image: url('../img/bg_img.jpg');
+}
+
+.login-container{
+    width: 40%;
+    margin: 10% auto;
+    overflow: hidden;
+}
+
+#btn-login{
+    margin-top: 30px;
+}
+
+#btn-register{
+    margin-top: 10px;
+}
+
+#forgotpassword{
+    float: right;
+    margin:10px;
+}
